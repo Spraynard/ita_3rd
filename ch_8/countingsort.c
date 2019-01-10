@@ -1,3 +1,12 @@
+/**
+ * O(k + n) sort in which we sort an array of ints
+ * @param A        Input Array - Array to be sorted
+ * @param inputLen Length of Input Array
+ * @param B        Output Array - Array to insert values and sort
+ * @param k        Range of integers in the input array. Should try
+ *                 and be the max value of the array to maintain efficiency
+ *                 but, it should only matter if k is pretty big
+ */
 void Counting_Sort( int *A, int inputLen, int *B, int k ) {
 	k = k + 1;
 	int C[k], i, j;
