@@ -1,5 +1,5 @@
 #include "queue.h"
-#include "util.c"
+#include "../util.c"
 
 void Print_Queue( Queue * q ) {
 	int i, j, temp;

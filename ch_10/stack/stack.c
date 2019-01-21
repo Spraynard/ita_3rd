@@ -6,7 +6,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "util.c"
+#include "../util.c"
 #include "stack.h"
 
 void Print_Stack( Stack * s ) {
