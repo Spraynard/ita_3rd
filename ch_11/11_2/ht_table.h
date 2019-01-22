@@ -14,6 +14,9 @@ int hash_ascii( char * c, int m );
 
 void ht_chained_insert( ht_table * T, char * key, int value );
 
+Node * ht_search( ht_table * T, char * key );
+// void ht_delete( ht_table * T, )
+
 void ht_table_delete( ht_table * T );
 
 void Print_Table( ht_table * T );
