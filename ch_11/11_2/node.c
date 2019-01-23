@@ -19,6 +19,7 @@ void Delete_Node( Node * N ) {
 
 void Print_Node( Node * N )
 {
+	printf("\n");
 	printf("Node:\n");
 
 	if ( N == NULL )
