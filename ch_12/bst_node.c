@@ -2,6 +2,54 @@
 #include <stdlib.h>
 #include "bst_node.h"
 
+void Print_Node( bst_node * x ) {
+	printf("Node\n");
+
+	if ( x == NULL )
+	{
+		printf("(NULL)\n");
+		return;
+	}
+	printf("Key\t->\t%d\n\n", x->key);
+
+	printf("\tParent\n");
+	printf("\t");
+	if ( x->parent != NULL )
+	{
+		printf("Key\t->\t%d\n", x->parent->key);
+	}
+	else
+	{
+		printf("(NULL)\n");
+	}
+	printf("\n");
+
+	printf("\tLeft\n");
+	printf("\t");
+	if ( x->left != NULL )
+	{
+		printf("Key\t->\t%d\n", x->left->key);
+	}
+	else
+	{
+		printf("(NULL)\n");
+	}
+	printf("\n");
+
+	printf("\tRight\n");
+	printf("\t");
+	if ( x->right != NULL )
+	{
+		printf("Key\t->\t%d\n", x->right->key);
+	}
+	else
+	{
+		printf("(NULL)\n");
+	}
+
+	printf("\n");
+}
+
 void Inorder_Tree_Walk( bst_node * x ) {
 	if ( x != NULL )
 	{
@@ -52,6 +100,17 @@ void Formatted_Preorder_Tree_Walk( bst_node * N, int level ) {
 		{
 			printf("<-\tROOT");
 		}
+		else
+		{
+			if ( Node_Compare( N, N->parent->left ) )
+			{
+				printf("<-\tLEFT");
+			}
+			else
+			{
+				printf("<-\tRIGHT");
+			}
+		}
 
 		level++;
 
@@ -64,54 +123,6 @@ void Formatted_Preorder_Tree_Walk( bst_node * N, int level ) {
 		printf("\n");
 	}
 	return;
-}
-
-void Print_Node( bst_node * x ) {
-	printf("Node\n");
-
-	if ( x == NULL )
-	{
-		printf("(NULL)\n");
-		return;
-	}
-	printf("Key\t->\t%d\n\n", x->key);
-
-	printf("\tParent\n");
-	printf("\t");
-	if ( x->parent != NULL )
-	{
-		printf("Key\t->\t%d\n", x->parent->key);
-	}
-	else
-	{
-		printf("(NULL)\n");
-	}
-	printf("\n");
-
-	printf("\tLeft\n");
-	printf("\t");
-	if ( x->left != NULL )
-	{
-		printf("Key\t->\t%d\n", x->left->key);
-	}
-	else
-	{
-		printf("(NULL)\n");
-	}
-	printf("\n");
-
-	printf("\tRight\n");
-	printf("\t");
-	if ( x->right != NULL )
-	{
-		printf("Key\t->\t%d\n", x->right->key);
-	}
-	else
-	{
-		printf("(NULL)\n");
-	}
-
-	printf("\n");
 }
 
 bst_node * bst_node_new( int key ) {

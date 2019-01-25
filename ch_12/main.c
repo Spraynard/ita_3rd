@@ -128,6 +128,44 @@ int main() {
 	}
 
 	Tree_Print( test_set_tree );
+
+	for ( int w = 251; w < 261; w++ )
+	{
+		test_set_node = bst_node_new( test_set[w] );
+		Tree_Insert_Recursive( test_set_tree, test_set_node, NULL, NULL );
+		assert( Tree_Search( test_set_tree->root, test_set_node->key ) );
+	}
+
+	Tree_Print( test_set_tree );
+
+	int test_set_2[10];
+	int index;
+	bst_tree * test_set_tree_two = bst_tree_new();
+	bst_node * test_set_node_2;
+	count = 0;
+
+	for ( index = 0; index < 10; index++ )
+	{
+		test_num = rand() % 50;
+
+		while ( inArray( test_set_2, test_num, count ) )
+		{
+			test_num = rand() % 50;
+		}
+
+		test_set_2[index] = test_num;
+
+		count++;
+	}
+
+	for ( index = 0; index < 10; index++ )
+	{
+		test_set_node_2 = bst_node_new( test_set_2[index] );
+		Tree_Insert_Recursive( test_set_tree_two, test_set_node_2, NULL, NULL );
+	}
+
+	Tree_Print( test_set_tree_two );
+
 /*
 Exercises
 12.2-1

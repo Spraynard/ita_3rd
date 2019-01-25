@@ -12,6 +12,7 @@ bst_tree * bst_tree_new() {
 
 void Tree_Print( bst_tree * T ) {
 	Formatted_Preorder_Tree_Walk( T->root, 0 );
+	printf("\n");
 }
 
 void Size_Tree( bst_node * N, int count ) {
@@ -26,6 +27,54 @@ int Tree_Size( bst_tree * T ) {
 	int count = 0;
 	Size_Tree( T->root, count );
 	return count;
+}
+
+void Tree_Insert_Recursive( bst_tree * T, bst_node * insert, bst_node * path, bst_node * trailing ) {
+
+	// Insert case if Tree is empty.
+	if ( ! T->root )
+	{
+		T->root = insert;
+		return;
+	}
+
+	// Initialize our path
+	if ( ! path && ! trailing )
+	{
+		path = T->root;
+	}
+
+	// Path Traversal Recursive Case
+	if ( path )
+	{
+		trailing = path;
+
+		if ( insert->key < path->key )
+		{
+			Tree_Insert_Recursive( T, insert, path->left, trailing );
+		}
+		else
+		{
+			Tree_Insert_Recursive( T, insert, path->right, trailing );
+		}
+	}
+
+	// Insert Case if we're at the end of a tree search
+	if ( ! path && trailing )
+	{
+		if ( insert->key < trailing->key )
+		{
+			trailing->left = insert;
+		}
+		else
+		{
+			trailing->right = insert;
+		}
+
+		insert->parent = trailing;
+	}
+
+	return;
 }
 
 void Tree_Insert( bst_tree * T, bst_node * z ) {
