@@ -166,6 +166,9 @@ int main() {
 
 	Tree_Print( test_set_tree_two );
 
+
+	printf("Sorted Tree #1\n");
+	Sorted_Tree_Increasing_Print( test_set_tree );
 /*
 Exercises
 12.2-1
