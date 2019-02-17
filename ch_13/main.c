@@ -2,6 +2,7 @@
 #include "rbt_tree.c"
 #include <stdio.h>
 #include <unistd.h>
+#include <time.h>
 
 /**
  * RED - BLACK Trees
@@ -23,6 +24,7 @@
  */
 
 int main() {
+	srand(time(NULL));
 	// A
 	rbt_tree * tree_a = rbt_tree_new();
 	int array_a[6] = {41, 38, 31, 12, 19, 8};
@@ -32,12 +34,23 @@ int main() {
 	 * a sorted array of inputs into our tree to
 	 * test its self, balancing behavior
 	 */
-	for ( int i = 0; i < a_length; i++ )
+	for ( int i = 1; i < 5000; i++ )
 	{
-		printf("number: %d\n", array_a[i]);
-		rbt_node * node_a = rbt_node_new( array_a[i] );
+		rbt_node * node_a = rbt_node_new( i );
 		RBT_Insert( tree_a, node_a );
 	}
 
+	// RB_Tree_Print( tree_a );
+
+	for ( int i = 1; i < 1000; i++ )
+	{
+		int randomNumber = rand() % 5000;
+		printf("Random Number: %d\n", randomNumber);
+		// Search for a random number
+		rbt_node * searchedNodeA = RBT_Search( tree_a, tree_a->root, randomNumber );
+		Print_RBT_Node(searchedNodeA);
+		RBT_Delete( tree_a, searchedNodeA);
+	}
+	printf("Printing Tree");
 	RB_Tree_Print( tree_a );
 }

@@ -15,8 +15,8 @@ void Left_Rotate( rbt_tree * T, rbt_node * x );
 
 void Right_Rotate( rbt_tree * T, rbt_node * x );
 
-void RBT_Delete( rbt_tree * T, rbt_node * z );
 void RB_Delete_Fixup( rbt_tree * T, rbt_node * z );
+void RBT_Delete( rbt_tree * T, rbt_node * z );
 
 void RBT_Transplant( rbt_tree * T, rbt_node * u, rbt_node * v );
 

@@ -1,7 +1,9 @@
 #include "bst_node.h"
 #include "rbt_node.h"
+#include "rbt_tree.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <limits.h>
 
 rbt_node * rbt_node_new( int value ) {
 	rbt_node * N = malloc( sizeof( rbt_node ) );
@@ -14,8 +16,26 @@ rbt_node * rbt_node_new( int value ) {
 };
 
 void Print_RBT_Node( rbt_node * x ) {
+	if ( ! x )
+	{
+		printf("NODE IS NULL\n");
+		return;
+	}
+
 	printf("Key: %d\n", x->key);
 	printf("Color: %d\n\n", x->color);
+
+	printf("Parent\n");
+	printf("------\n");
+	if ( x->parent == NULL )
+	{
+		printf("\t%s\n", "NULL");
+	}
+	else
+	{
+		printf("\tKey: %d\n", x->parent->key);
+		printf("\tColor: %d\n", x->parent->color);
+	}
 
 	printf("Left\n");
 	printf("----\n");
@@ -50,6 +70,8 @@ void Print_RBT_Node( rbt_node * x ) {
  * the "left" properties of each of the node.
  */
 rbt_node * RBT_Minimum( rbt_node * x ) {
+	printf("RBT Minimum Start\n");
+	Print_RBT_Node( x );
 	while ( x->left != NULL )
 	{
 		x = x->left;
@@ -58,95 +80,45 @@ rbt_node * RBT_Minimum( rbt_node * x ) {
 	return x;
 }
 
-int RBT_Node_Compare( rbt_node * x, rbt_node * y ) {
-
-	// Checking for null pointer compared to non null pointer.
-	if ( x != NULL && y == NULL )
+rbt_node * RBT_Search( rbt_tree * T, rbt_node * x, int key ) {
+	if ( x == T_Nil || key == x->key )
 	{
-		return 0;
-	}
-	else if ( x == NULL && y != NULL )
-	{
-		return 0;
+		return x;
 	}
 
-	// Case if both null
-	if ( x == NULL && y == NULL )
+	if ( key < x->key )
 	{
-		return 1;
+		return RBT_Search( T, x->left, key );
 	}
-
-	// Extracting Data from A
-	int key_x = -1;//`x->key;
-	int key_y = -1;//`y->key;
-
-	if ( x->key )
+	else
 	{
-		key_x = x->key;
+		return RBT_Search( T, x->right, key );
 	}
-
-	if ( y->key )
-	{
-		key_y = y->key;
-	}
-
-	if ( key_x != key_y )
-	{
-		return 0;
-	}
-
-	int key_x_parent = -1;
-	int key_y_parent = -1;
-
-	if ( x->parent != NULL )
-	{
-		key_x_parent = x->parent->key;
-	}
-
-	if ( y->parent != NULL )
-	{
-		key_y_parent = y->parent->key;
-	}
-
-	if ( key_x_parent != key_y_parent )
-	{
-		return 0;
-	}
-
-	int key_x_left = -1;
-	int key_y_left = -1;
-
-	if ( x->left != NULL )
-	{
-		key_x_left = x->left->key;
-	}
-	if ( y->left != NULL )
-	{
-		key_y_left = y->left->key;
-	}
-
-	if ( key_x_left != key_y_left )
-	{
-		return 0;
-	}
-
-	int key_x_right = -1;
-	int key_y_right = -1;
-
-	if ( x->right != NULL )
-	{
-		key_x_right = x->right->key;
-	}
-	if ( y->right != NULL )
-	{
-		key_y_right = y->right->key;
-	}
-
-	if ( key_x_right != key_y_right )
-	{
-		return 0;
-	}
-
-	// Inequal if the last test didn't work.
-	return 1;
 }
+
+// int RBT_Node_Compare( rbt_node * x, rbt_node * y ) {
+
+// 	printf("Comparing Nodes: \n");
+// 	Print_RBT_Node( x );
+// 	Print_RBT_Node( y );
+// 	if ( isNullNode( x ) && isNullNode( y ) )
+// 	{
+// 		return 1;
+// 	}
+
+// 	// Cases where we're not equal.
+// 	if (
+// 		( isNullNode( x ) && ! isNullNode( y ) ) ||
+// 		( ! isNullNode( x ) && isNullNode( y ) ) ||
+// 		( ( ! isNullNode( x ) && ! isNullNode( y ) ) && x->key != y->key  )
+// 	)
+// 	{
+// 		return 0;
+// 	}
+
+// 	RBT_Node_Compare( x->left, y->left );
+
+// 	RBT_Node_Compare( x->right, y->right );
+
+// 	return 0;
+// }
