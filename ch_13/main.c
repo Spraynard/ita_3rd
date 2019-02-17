@@ -41,15 +41,23 @@ int main() {
 	}
 
 	// RB_Tree_Print( tree_a );
+	int i = 0;
 
-	for ( int i = 1; i < 1000; i++ )
+	while ( i < 1000 )
 	{
 		int randomNumber = rand() % 5000;
 		printf("Random Number: %d\n", randomNumber);
 		// Search for a random number
 		rbt_node * searchedNodeA = RBT_Search( tree_a, tree_a->root, randomNumber );
+
+		// If our searched node is null, it was already deleted
+		if ( searchedNodeA == tree_a->null )
+		{
+			continue;
+		}
 		Print_RBT_Node(searchedNodeA);
 		RBT_Delete( tree_a, searchedNodeA);
+		i++;
 	}
 	printf("Printing Tree");
 	RB_Tree_Print( tree_a );

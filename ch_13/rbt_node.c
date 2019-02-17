@@ -64,24 +64,8 @@ void Print_RBT_Node( rbt_node * x ) {
 	printf("\n");
 }
 
-/**
- * Binary Search Tree property guarantees that
- * we find the minimum value in the tree by iterating through
- * the "left" properties of each of the node.
- */
-rbt_node * RBT_Minimum( rbt_node * x ) {
-	printf("RBT Minimum Start\n");
-	Print_RBT_Node( x );
-	while ( x->left != NULL )
-	{
-		x = x->left;
-	}
-
-	return x;
-}
-
 rbt_node * RBT_Search( rbt_tree * T, rbt_node * x, int key ) {
-	if ( x == T_Nil || key == x->key )
+	if ( x == T->null || key == x->key )
 	{
 		return x;
 	}
@@ -95,30 +79,3 @@ rbt_node * RBT_Search( rbt_tree * T, rbt_node * x, int key ) {
 		return RBT_Search( T, x->right, key );
 	}
 }
-
-// int RBT_Node_Compare( rbt_node * x, rbt_node * y ) {
-
-// 	printf("Comparing Nodes: \n");
-// 	Print_RBT_Node( x );
-// 	Print_RBT_Node( y );
-// 	if ( isNullNode( x ) && isNullNode( y ) )
-// 	{
-// 		return 1;
-// 	}
-
-// 	// Cases where we're not equal.
-// 	if (
-// 		( isNullNode( x ) && ! isNullNode( y ) ) ||
-// 		( ! isNullNode( x ) && isNullNode( y ) ) ||
-// 		( ( ! isNullNode( x ) && ! isNullNode( y ) ) && x->key != y->key  )
-// 	)
-// 	{
-// 		return 0;
-// 	}
-
-// 	RBT_Node_Compare( x->left, y->left );
-
-// 	RBT_Node_Compare( x->right, y->right );
-
-// 	return 0;
-// }

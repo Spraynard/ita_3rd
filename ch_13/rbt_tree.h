@@ -22,5 +22,7 @@ void RBT_Transplant( rbt_tree * T, rbt_node * u, rbt_node * v );
 
 int Tree_Size( rbt_tree * T );
 
+rbt_node * RBT_Minimum( rbt_tree * T, rbt_node * x );
+
 rbt_tree * rbt_tree_new();
 #endif

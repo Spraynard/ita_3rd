@@ -7,7 +7,7 @@
 void Formatted_Preorder_RB_Tree_Walk( rbt_tree * T, rbt_node * N, int level ) {
 	int i;
 
-	if ( N != T_Nil ) //! RBT_Node_Compare( N, T->null ) )
+	if ( N != T->null ) //! RBT_Node_Compare( N, T->null ) )
 	{
 		printf("\n");
 		for ( i = 0; i < level; i++ )
@@ -151,7 +151,7 @@ void RBT_Insert_Fixup( rbt_tree * T, rbt_node * z )
 void RBT_Delete_Fixup( rbt_tree * T, rbt_node * x ) {
 	rbt_node * w;
 
-	while ( x->key != T->root->key && x->color == 0 )//! RBT_Node_Compare( x, T->root ) && x->color == 0 )
+	while ( ( x->key != T->root->key ) && x->color == 0 )//! RBT_Node_Compare( x, T->root ) && x->color == 0 )
 	{
 		if ( x->key == x->parent->left->key )//RBT_Node_Compare( x, x->parent->left ) )
 		{
@@ -227,42 +227,32 @@ void RBT_Delete( rbt_tree * T, rbt_node * z ) {
 
 	int y_original_color = y->color;
 
-	printf("Deleting\n");
-	if ( z->left == T->null || z->left == NULL )// isNullNode( z->left ) )
+	if ( z->left == T->null )// isNullNode( z->left ) )
 	{
-		printf("Z->left == T->null\n");
 		x = z->right;
 		RBT_Transplant(T, z, z->right);
 	}
-	else if ( z->right == T->null || z->right == NULL)//isNullNode( z->right ) )
+	else if ( z->right == T->null )//isNullNode( z->right ) )
 	{
-		printf("Z->right == T->null\n");
 		x = z->left;
 		RBT_Transplant(T, z, z->left);
 	}
 	else
 	{
-		printf("Children nodes are not null\n");
-		y = RBT_Minimum( z->right );
+		y = RBT_Minimum( T, z->right );
 		y_original_color = y->color;
 		x = y->right;
 
-		printf("making it to rbt_node_compare\n");
-		Print_RBT_Node( y->parent );
-		Print_RBT_Node( z );
 		if ( y->parent->key == z->key )//RBT_Node_Compare( y->parent, z ) )
 		{
-			printf("y->paretn == z\n");
 			x->parent = y;
 		}
 		else
 		{
-			printf("y->parent != z\n");
 			RBT_Transplant(T, y, y->right);
 			y->right = z->right;
 			y->right->parent = y;
 		}
-		printf("Making it to rbt_transplant\n");
 		RBT_Transplant(T, z, y);
 		y->left = z->left;
 		y->left->parent = y;
@@ -270,32 +260,24 @@ void RBT_Delete( rbt_tree * T, rbt_node * z ) {
 	}
 	if ( y_original_color == 0 )
 	{
-		printf("Delete Fixup\n");
 		RBT_Delete_Fixup( T, x );
 	}
 }
 
 void RBT_Transplant( rbt_tree * T, rbt_node * u, rbt_node * v ) {
-	printf("First Compare outside any statements\n");
-	Print_RBT_Node(u);
-	Print_RBT_Node(v);
-	if ( u->parent == T->null || u->parent == NULL )// isNullNode( u->parent ) )
+	if ( u->parent == T->null )// isNullNode( u->parent ) )
 	{
-		printf("First Compare\n");
 		T->root = v;
 	}
 	else if ( u->key == u->parent->left->key ) //RBT_Node_Compare( u, u->parent->left ) )
 	{
-		printf("Second Compare\n");
 		u->parent->left = v;
 	}
 	else
 	{
-		printf("First and second compare are not equal\n");
 		u->parent->right = v;
 	}
 
-	printf("Successfully making it through, setting v->parent == u->parent\n");
 	v->parent = u->parent;
 }
 
@@ -355,12 +337,26 @@ void Right_Rotate( rbt_tree * T, rbt_node * x ) {
 	x->parent = y;
 }
 
+/**
+ * Binary Search Tree property guarantees that
+ * we find the minimum value in the tree by iterating through
+ * the "left" properties of each of the node.
+ */
+rbt_node * RBT_Minimum( rbt_tree * T, rbt_node * x ) {
+	while ( x->left != T->null )
+	{
+		x = x->left;
+	}
+
+	return x;
+}
+
 int Tree_Size( rbt_tree * T );
 
 rbt_tree * rbt_tree_new() {
 	printf("%s\n", "We are creating a new tree");
 	rbt_tree * T = malloc( sizeof( rbt_tree ) );
-	T->null = T_Nil;
+	T->null = NIL_Node;
 	T->root = T->null;
 	return T;
 }
