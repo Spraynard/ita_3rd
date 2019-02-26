@@ -1,9 +1,4 @@
-#include "bst_node.h"
 #include "rbt_node.h"
-#include "rbt_tree.h"
-#include <stdlib.h>
-#include <stdio.h>
-#include <limits.h>
 
 rbt_node * rbt_node_new( int value ) {
 	rbt_node * N = malloc( sizeof( rbt_node ) );
@@ -62,20 +57,4 @@ void Print_RBT_Node( rbt_node * x ) {
 	}
 
 	printf("\n");
-}
-
-rbt_node * RBT_Search( rbt_tree * T, rbt_node * x, int key ) {
-	if ( x == T->null || key == x->key )
-	{
-		return x;
-	}
-
-	if ( key < x->key )
-	{
-		return RBT_Search( T, x->left, key );
-	}
-	else
-	{
-		return RBT_Search( T, x->right, key );
-	}
 }

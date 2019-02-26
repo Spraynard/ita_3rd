@@ -1,8 +1,7 @@
 #include "rbt_tree.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <limits.h>
-#include <unistd.h>
+
+rbt_node NIL;
+rbt_node * NIL_Node = &NIL;
 
 void Formatted_Preorder_RB_Tree_Walk( rbt_tree * T, rbt_node * N, int level ) {
 	int i;
@@ -33,6 +32,15 @@ void Formatted_Preorder_RB_Tree_Walk( rbt_tree * T, rbt_node * N, int level ) {
 			}
 		}
 
+		if ( N->color == 0 )
+		{
+			printf("\tBLACK");
+		}
+		else
+		{
+			printf("\tRED");
+		}
+
 		level++;
 
 		Formatted_Preorder_RB_Tree_Walk( T, N->left, level );
@@ -47,6 +55,7 @@ void Formatted_Preorder_RB_Tree_Walk( rbt_tree * T, rbt_node * N, int level ) {
 }
 
 void RB_Tree_Print( rbt_tree * T ) {
+	printf("Tree Black Height:\t%d", T->bh);
 	Formatted_Preorder_RB_Tree_Walk( T, T->root, 0 );
 	printf("\n");
 }
@@ -123,9 +132,12 @@ void RBT_Insert_Fixup( rbt_tree * T, rbt_node * z )
 		}
 		else
 		{
-			y = z->parent->parent->left;
+			y = z->parent->parent->left; // Uncle Node
+
+			// If uncle node is red, change ancestral colors
 			if ( y->color == 1 )
 			{
+				// Adding in a black node here
 				z->parent->color = 0;
 				y->color = 0;
 				z->parent->parent->color = 1;
@@ -144,6 +156,10 @@ void RBT_Insert_Fixup( rbt_tree * T, rbt_node * z )
 				Left_Rotate(T, z->parent->parent);
 			}
 		}
+	}
+	if ( T->root->color == 1 )
+	{
+		T->bh++;
 	}
 	T->root->color = 0;
 }
@@ -217,6 +233,10 @@ void RBT_Delete_Fixup( rbt_tree * T, rbt_node * x ) {
 				x = T->root;
 			}
 		}
+		if ( x->key == T->root->key )
+		{
+			T->bh--;
+		}
 	}
 	x->color = 0;
 }
@@ -258,6 +278,7 @@ void RBT_Delete( rbt_tree * T, rbt_node * z ) {
 		y->left->parent = y;
 		y->color = z->color;
 	}
+
 	if ( y_original_color == 0 )
 	{
 		RBT_Delete_Fixup( T, x );
@@ -353,10 +374,51 @@ rbt_node * RBT_Minimum( rbt_tree * T, rbt_node * x ) {
 
 int Tree_Size( rbt_tree * T );
 
+rbt_node * RBT_Search( rbt_tree * T, rbt_node * x, int key ) {
+	if ( x == T->null || key == x->key )
+	{
+		return x;
+	}
+
+	if ( key < x->key )
+	{
+		return RBT_Search( T, x->left, key );
+	}
+	else
+	{
+		return RBT_Search( T, x->right, key );
+	}
+}
+
 rbt_tree * rbt_tree_new() {
 	printf("%s\n", "We are creating a new tree");
 	rbt_tree * T = malloc( sizeof( rbt_tree ) );
 	T->null = NIL_Node;
 	T->root = T->null;
+	T->bh = 0;
 	return T;
+}
+
+void rbt_node_free(rbt_tree * T, rbt_node * N ) {
+	if ( N == T->null )
+	{
+		return;
+	}
+
+	rbt_node_free(T, N->left);
+	rbt_node_free(T, N->right);
+
+	free(N);
+	N = NULL;
+	return;
+}
+void rbt_tree_free( rbt_tree * T ) {
+	// Free all the nodes first and then free our tree;
+	// Which means do a postorder traversal.
+	rbt_node_free(T, T->root );
+	free(T);
+
+	T = NULL;
+
+	return;
 }
